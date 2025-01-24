@@ -1,15 +1,20 @@
 import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todo/providers/todo_provider.dart';
+import 'package:todo/ui/widgets/time_picker.dart';
 
-class TodoFieldScreen extends StatefulWidget {
+class TodoFieldScreen extends ConsumerStatefulWidget {
   const TodoFieldScreen({super.key});
 
   @override
-  State<TodoFieldScreen> createState() => _TodoFieldScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _TodoFieldScreenState();
 }
 
-class _TodoFieldScreenState extends State<TodoFieldScreen> {
+class _TodoFieldScreenState extends ConsumerState<TodoFieldScreen> {
   Time _time = Time(hour: 00, minute: 00, second: 00);
+  final _titleController = TextEditingController();
 
   void onTimeChanged(Time newTime) {
     setState(() {
@@ -17,16 +22,34 @@ class _TodoFieldScreenState extends State<TodoFieldScreen> {
     });
   }
 
+  void _saveTodo() {
+    final submitTitle = _titleController.text;
+
+    if (submitTitle.isEmpty) {
+      return;
+    }
+
+    ref.read(todoProvider.notifier).addTodo(submitTitle, _time.format(context));
+
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const Icon(Icons.arrow_back),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: const Icon(Icons.arrow_back)),
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                _saveTodo();
+              },
               style: const ButtonStyle(
                   backgroundColor: WidgetStatePropertyAll(Colors.grey)),
               child: const Text(
@@ -37,35 +60,18 @@ class _TodoFieldScreenState extends State<TodoFieldScreen> {
           )
         ],
       ),
-      body: Column(children: [
+      body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextField(
+              controller: _titleController,
               decoration: InputDecoration(
-            hintText: "Judul Todo",
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-          )),
+                hintText: "Judul Todo",
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+              )),
         ),
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).push(
-              showPicker(
-                  context: context,
-                  value: _time,
-                  moonAsset: Image.asset('assets/images/moon.png'),
-                  sunAsset: Image.asset("assets/images/sun.png"),
-                  sunrise: TimeOfDay(hour: 6, minute: 0), // optional
-                  sunset: TimeOfDay(hour: 18, minute: 0), // optional
-                  duskSpanInMinutes: 120, // optional
-                  onChange: onTimeChanged,
-                  is24HrFormat: true),
-            );
-          },
-          child: Text(
-            "Open time picker",
-            style: TextStyle(color: Colors.black),
-          ),
-        ),
+        TimePickerWidget(time: _time, onTimeChanged: onTimeChanged)
       ]),
     );
   }
