@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todo/services/notification.dart';
 import 'package:todo/ui/screens/home_screen.dart';
-import 'package:todo/ui/screens/todo_field_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await NotificationService.initializeNotification();
   runApp(const ProviderScope(child: MyApp()));
 }
 

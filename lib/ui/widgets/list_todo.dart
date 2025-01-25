@@ -1,9 +1,13 @@
+import 'dart:math';
+
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:todo/data/models/todo_model.dart';
 import 'package:todo/providers/todo_provider.dart';
+import 'package:todo/services/notification.dart';
 
 class ListTodoWidget extends ConsumerStatefulWidget {
   const ListTodoWidget({super.key, required this.todos});
@@ -33,7 +37,7 @@ class _ListTodoWidgetState extends ConsumerState<ListTodoWidget> {
       itemBuilder: (context, index) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         child: Slidable(
-          endActionPane: ActionPane(motion: ScrollMotion(), children: [
+          endActionPane: ActionPane(motion: const ScrollMotion(), children: [
             SlidableAction(
               onPressed: (context) {
                 ref
@@ -41,6 +45,23 @@ class _ListTodoWidgetState extends ConsumerState<ListTodoWidget> {
                     .deleteTodo(widget.todos[index].id);
               },
               icon: Icons.delete,
+              backgroundColor: Colors.red,
+              label: 'Delete',
+              borderRadius: BorderRadius.circular(8),
+            ),
+            SlidableAction(
+              onPressed: (context) async {
+                List<String> timeParts = widget.todos[index].time.split(':');
+                int hour = int.parse(timeParts[0]);
+                int minute = int.parse(timeParts[1]);
+
+                await NotificationService.myNotifyScheduleInHours(
+                  title: widget.todos[index].title,
+                  hours: hour,
+                  minutes: minute,
+                );
+              },
+              icon: Icons.notification_add_rounded,
               backgroundColor: Colors.red,
               label: 'Delete',
               borderRadius: BorderRadius.circular(8),
