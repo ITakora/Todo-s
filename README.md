@@ -1,16 +1,14 @@
-# todo
+# Todo's :writing_hand:
 
-A new Flutter project.
+This Is My App for Project UAS :grin:
 
-## Getting Started
+## Demo Aplication
 
-This project is a starting point for a Flutter application.
+![Screenshot_1737900726](https://github.com/user-attachments/assets/b2c12bee-08a1-4f0c-b492-05cdbc47a9bb) 
+![Screenshot_1737900734](https://github.com/user-attachments/assets/d1033b74-3cde-4f91-820d-e362c7655086)
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+https://github.com/user-attachments/assets/96e807da-c8d0-4b2a-b036-77e99a31d192
+
