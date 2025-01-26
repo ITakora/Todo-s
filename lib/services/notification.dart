@@ -1,6 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
-import 'package:todo/providers/todo_provider.dart';
 
 class NotificationService {
   static Future<void> initializeNotification() async {
@@ -81,15 +80,21 @@ class NotificationService {
     // required final List<NotificationActionButton>? actionButtons,
     bool repeatNotif = false,
   }) async {
+    String localTimeZone =
+        await AwesomeNotifications().getLocalTimeZoneIdentifier();
     // var nowDate = DateTime.now().add(Duration(hours: hoursFromNow, seconds: 5));
     await AwesomeNotifications().createNotification(
       schedule: NotificationCalendar(
-        //weekday: nowDate.day,
-        hour: hours,
-        minute: minutes,
-        repeats: repeatNotif,
-        //allowWhileIdle: true,
-      ),
+          //weekday: nowDate.day,
+          hour: hours,
+          minute: minutes,
+          repeats: repeatNotif,
+          allowWhileIdle: true,
+          preciseAlarm: true,
+          timeZone: localTimeZone,
+          second: 0
+          //allowWhileIdle: true,
+          ),
       // schedule: NotificationCalendar.fromDate(
       //    date: DateTime.now().add(const Duration(seconds: 10))),
       content: NotificationContent(

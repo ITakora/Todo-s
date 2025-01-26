@@ -1,6 +1,3 @@
-import 'dart:math';
-
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -49,9 +46,17 @@ class _ListTodoWidgetState extends ConsumerState<ListTodoWidget> {
               label: 'Delete',
               borderRadius: BorderRadius.circular(8),
             ),
+            const SizedBox(width: 10),
             SlidableAction(
               onPressed: (context) async {
-                List<String> timeParts = widget.todos[index].time.split(':');
+                // String time = widget.todos[index].time;
+
+                // String cleanedTime =
+                //     time.replaceAll(RegExp(r'\s?[AaPp][Mm]'), '');
+
+                List<String> timeParts = widget.todos[index].time
+                    .replaceAll(RegExp(r'\s?[AaPp][Mm]'), '') // Remove AM or PM
+                    .split(':');
                 int hour = int.parse(timeParts[0]);
                 int minute = int.parse(timeParts[1]);
 
@@ -62,8 +67,8 @@ class _ListTodoWidgetState extends ConsumerState<ListTodoWidget> {
                 );
               },
               icon: Icons.notification_add_rounded,
-              backgroundColor: Colors.red,
-              label: 'Delete',
+              backgroundColor: Colors.cyan,
+              label: 'Notif',
               borderRadius: BorderRadius.circular(8),
             )
           ]),

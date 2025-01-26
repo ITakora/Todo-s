@@ -19,6 +19,7 @@ class _TodoFieldScreenState extends ConsumerState<TodoFieldScreen> {
   void onTimeChanged(Time newTime) {
     setState(() {
       _time = newTime;
+      // print(_time);
     });
   }
 
